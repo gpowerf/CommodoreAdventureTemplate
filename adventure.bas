@@ -5,5 +5,5 @@
 50 print "Game start"
 60 rem Set variables -room matrix, objects matrix, score, money, etc... 
 65 rem keep variable names to two characters. Longer names used here for clarity.
-70 cat=0:key=0:money=20:score=0
+70 cat=0:btl=0:mny=20:scr=0
 
