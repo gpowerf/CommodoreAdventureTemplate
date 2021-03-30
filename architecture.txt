@@ -1,0 +1,36 @@
+This text file discribes software architecture. 
+
+Map:
+
+      .---.       .---.        N
+      | 1 |-------| 2 |      W + E 
+      '---'       '---'        S
+        |
+        |
+      .---.
+      | 3 |
+      '---'
+
+Room 1 has two exits, to the east is room 2 and to the south is room 3.
+Room 2 has one exit, to the west is room 1.
+Room 3 has one exit, to the north is room 1.
+
+This is represented as a matrix:
+
+ROOM	NAME	N	S	W	E
+1       park    0   3   0   2
+2       shop    0   0   1   0
+3       home    1   0   0   0
+
+As you can see each room has 4 exists and the connections are stored in
+the matrix. 
+
+In Basic this is represented as an array l (locations):
+
+dim l%(3,4)
+l%(1,2)=3
+l%(2,4)=2
+l%(3,1)=1
+
+
+
