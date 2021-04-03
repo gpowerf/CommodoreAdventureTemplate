@@ -110,8 +110,22 @@ visible when you open it.
 ************************************************************************
 
 This is where the magic happens, the game look runs continuously during
-your adventure time. I've kept things simple here, the game accepts 
-commands of or or two words only, much like Colossal Cave Adventure.
+your adventure time. There's no game ending in this template, the only 
+way to exit this loop is by typing the quit command. 
+
+************************************************************************
+* Natural language:
+************************************************************************
+
+I've kept things simple here, the game accepts commands of or or two
+words only, much like Colossal Cave Adventure.
+
+It makes use of the mid$, left$, and right$ functions to separate the
+input string. This is done within the main loop, if you wanted to come
+up with more complex natural language processing you might want to
+write this as a function instead. 
+
+
 
 
 
