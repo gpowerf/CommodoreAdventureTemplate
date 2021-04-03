@@ -1,6 +1,18 @@
 This text file discribes ganme's architecture. 
 
 ************************************************************************
+* Intro:
+************************************************************************
+
+This document describes the architecture of the text adventure. 
+
+This is not a complete game, it is a template that can be extended to 
+create a complete game in Commodore Basic V2. 
+
+There's no way to finish this game. You can move around the small 
+world, get and drop objects, as well as look at things. 
+
+************************************************************************
 * Map:
 ************************************************************************
 
@@ -38,7 +50,7 @@ In Basic this is represented as an array l (locations):
 	l%(2,0)=1
 
 ************************************************************************
-* Descriptions:
+* Room descriptions:
 ************************************************************************
 
 For the room descriptions we also use an array. Remember we have rooms 
@@ -69,6 +81,19 @@ There is also another location which is -1, this is your bag, an object
 that you are carrying. 
 
 ************************************************************************
+* Object descriptions:
+************************************************************************
+
+For the object descriptions we also use an array. Remember we have 
+objects 0, 1, and 2. A simple array with as many elements as there are 
+objects.
+
+	dim od$(2)
+	od$(0)="an old red candle."
+	od$(1)="an empty milk bottle."
+	od$(2)="a shinny golden key."
+
+************************************************************************
 * Global variables:
 ************************************************************************
 
@@ -76,14 +101,18 @@ The game uses a number of global variable, primarily the variable l,
 this is your current location. 
 
 You may also want to keep a number of flags to indicate that certain
-events have happened, eg: seen turkey, met sandra, etc...
+events have happened, eg: imagine a closed cabinet, you could have a 
+variable to indicate that it is closed, and an object only becomes 
+visible when you open it. 
 
 ************************************************************************
 * Game loop:
 ************************************************************************
 
 This is where the magic happens, the game look runs continuously during
-your adventure time. 
+your adventure time. I've kept things simple here, the game accepts 
+commands of or or two words only, much like Colossal Cave Adventure.
+
 
 
 ..... more to come ......
