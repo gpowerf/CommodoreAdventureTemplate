@@ -61,41 +61,30 @@ For the room descriptions we also use an array. Remember we have rooms
 	d$(2)="your home."
 
 ************************************************************************
-* Objects:
-************************************************************************
-
-The objects are once again stored in an arrary of n elements, where
-the key corresponds to a particular object and the key is its location.
-
-	dim ob(2)
-	ob(0)=0 
-	ob(1)=0 
-	ob(2)=2 
-
-Object 0 is a candle and it is in the park. 
-Object 1 is a bottle and it is in the park. 
-Object 2 is a key at it is at home.
-
-There is also another location which is -1, this is your bag, an object
-that you are carrying. 
-
-************************************************************************
 * Objects & object descriptions:
 ************************************************************************
 
 Objects and descriptions are stored in an array as follows:
 
-ROOM	NAME	DESCRIPTION
-0		candle	an old red candle.
-1		bottle	an empty milk bottle.
-2		key		a shinny golden key.
+ID	ROOM	NAME	DESCRIPTION
+0	0		candle	an old red candle.
+1	1		bottle	an empty milk bottle.
+2	2		key		a shinny golden key.
 
 In code:
 
-	dim od$(2,1)
-	od$(0,0)="candle":od$(0,1)="an old red candle."
-	od$(1,0)="bottle":od$(1,1)="an empty milk bottle."
-	od$(2,0)="key":od$(2,1)="a shinny golden key."
+	dim ob$(2,2)
+	ob$(0,0)="0":od$(0,1)="candle":od$(0,2)="an old red candle."
+	ob$(1,0)="0":od$(1,1)="bottle":od$(1,2)="an empty milk bottle."
+	ob$(2,0)="2":od$(2,1)="key":od$(2,2)="a shinny golden key."
+	
+Object 0 is a candle and it is in the park. 
+Object 1 is a bottle and it is in the park. 
+Object 1 is a key at it is at home.
+
+There is also another location which is -1, this is your bag, an object
+that you are carrying. We have store the ID as a string, so we will have
+to cast values, see code.
 
 ************************************************************************
 * Global variables:

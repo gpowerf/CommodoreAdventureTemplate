@@ -2,7 +2,7 @@
 10 print "{clr}":poke 53280,0:poke 53281,0  
 20 rem Start message
 30 print "{lower case}{grn}{rght}{rght}{rght}{rght}{rght}{rght}{rght}*** Adventure Template ***"
-50 print "Game start"
+50 print "{sret}Game start"
 60 rem ***Set variables -room matrix, descriotions, etc...***
 70 lc=0
 80 rem now this is the map matrix (see architecture.txt)
@@ -21,13 +21,13 @@
 160 ob(1)=0 
 170 ob(2)=2 
 175 rem ***objects & description***
-180 dim od$(2,1)
-190	od$(0,0)="candle":od$(0,1)="an old red candle."
-200	od$(1,0)="bottle":od$(1,1)="an empty milk bottle."
-210	od$(2,0)="key":od$(2,1)="a shinny golden key."
+180 dim ob$(2,2)
+190	ob$(0,0)=" 0":ob$(0,1)="candle":ob$(0,2)="an old red candle."
+200	ob$(1,0)=" 0":ob$(1,1)="bottle":ob$(1,2)="an empty milk bottle."
+210	ob$(2,0)=" 2":ob$(2,1)="key":ob$(2,2)="a shinny golden key."
 220 rem ***main loop***
 230 gosub 500:print 
-240 input ">";a$
+240 input "{sret}>";a$
 250 le=len(a$)
 260 for i=1 to le
 270 if mid$(a$,i,1)=" " then goto 290
@@ -55,8 +55,11 @@
 560 if l%(lc,2)<>-1 then print "west ";
 570 if l%(lc,3)<>-1 then print "east ";
 580 print
-590 return
-600 rem***get object***
-610 
+600 rem***look at objecta***
+610 print "{sret}You can also see the following objects:"
+620 for i=0 to 2
+630 if ob$(i,0)=str$(lc) then print ob$(i,1);:print " ";
+640 next
+650 return
 
 
