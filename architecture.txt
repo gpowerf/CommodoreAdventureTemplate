@@ -34,20 +34,19 @@ Room 3 has one exit, to the north is room 1.
 This is represented as a matrix:
 
 ROOM	NAME	N(0)	S(1)	W(2)	E(3)
-0       park     0   	 3   	 0   	 2
-1       shop     0   	 0   	 1   	 0
-2       home     1   	 0   	 0   	 0
+0       park     -1   	  2   	 -1   	  1
+1       shop     -1   	 -1   	  0   	 -1
+2       home      0   	 -1   	 -1   	 -1
 
 As you can see each room has 4 exists and the connections are stored in
-the matrix. 
+the matrix. And -1 indicates that there are no exists in that direction. 
 
 In Basic this is represented as an array l (locations):
 
 	dim l%(2,3)
-	l%(0,1)=3
-	l%(0,3)=2
-	l%(1,2)=1
-	l%(2,0)=1
+	l%(0,0)=-1:l%(0,1)=2:l%(0,2)=-1:l%(0,3)=1
+	l%(1,0)=-1:l%(1,1)=-1:l%(1,2)=-0:l%(1,3)=-1
+	l%(2,0)=-0:l%(2,1)=-1:l%(2,2)=-1:l%(2,3)=-1
 
 ************************************************************************
 * Room descriptions:
@@ -81,17 +80,22 @@ There is also another location which is -1, this is your bag, an object
 that you are carrying. 
 
 ************************************************************************
-* Object descriptions:
+* Objects & object descriptions:
 ************************************************************************
 
-For the object descriptions we also use an array. Remember we have 
-objects 0, 1, and 2. A simple array with as many elements as there are 
-objects.
+Objects and descriptions are stored in an array as follows:
 
-	dim od$(2)
-	od$(0)="an old red candle."
-	od$(1)="an empty milk bottle."
-	od$(2)="a shinny golden key."
+ROOM	NAME	DESCRIPTION
+0		candle	an old red candle.
+1		bottle	an empty milk bottle.
+2		key		a shinny golden key.
+
+In code:
+
+	dim od$(2,1)
+	od$(0,0)="candle":od$(0,1)="an old red candle."
+	od$(1,0)="bottle":od$(1,1)="an empty milk bottle."
+	od$(2,0)="key":od$(2,1)="a shinny golden key."
 
 ************************************************************************
 * Global variables:
@@ -124,10 +128,6 @@ It makes use of the mid$, left$, and right$ functions to separate the
 input string. This is done within the main loop, if you wanted to come
 up with more complex natural language processing you might want to
 write this as a function instead. 
-
-
-
-
 
 ..... more to come ......
 
