@@ -4,7 +4,7 @@
 30 print "{lower case}{grn}{rght}{rght}{rght}{rght}{rght}{rght}{rght}*** Adventure Template ***"
 50 print "{sret}Game start"
 60 rem ***Set variables -room matrix, descriotions, etc...***
-70 lc=0
+70 lc=0:o=2
 80 rem now this is the map matrix (see architecture.txt)
 85 dim l%(2,3)
 90 l%(0,0)=-1:l%(0,1)=2:l%(0,2)=-1:l%(0,3)=1
@@ -21,10 +21,11 @@
 160 ob(1)=0 
 170 ob(2)=2 
 175 rem ***objects & description***
-180 dim ob$(2,2)
-190	ob$(0,0)=" 0":ob$(0,1)="candle":ob$(0,2)="an old red candle."
-200	ob$(1,0)=" 0":ob$(1,1)="bottle":ob$(1,2)="an empty milk bottle."
-210	ob$(2,0)=" 2":ob$(2,1)="key":ob$(2,2)="a shinny golden key."
+180 dim ob$(2,1)
+190	ob$(0,0)="candle":ob$(0,1)="An old red candle."
+200	ob$(1,0)="bottle":ob$(1,1)="An empty milk bottle."
+210	ob$(2,0)="key":ob$(2,1)="A shinny golden key."
+215 dim ol%(2):ol%(0)=0:ol%(1)=0:ol%(2)=2
 220 gosub 500
 230 rem ***main loop***
 240 input "{sret}>";a$
@@ -39,7 +40,9 @@
 330 if w1$="look" then gosub 500
 340 if w1$="examine" then gosub 700
 350 if w1$="get" then gosub 800
-360 goto 230
+360 if w1$="inv" or w1$="inventory" then gosub 900
+370 if w1$="drop" then gosub 1000
+380 goto 230
 400 rem ***move around***
 410 if (w1$="n" or w2$="north") then nl=l%(lc,0)
 420 if (w1$="s" or w2$="south") then nl=l%(lc,1)
@@ -59,23 +62,42 @@
 570 if l%(lc,3)<>-1 then print "east ";
 580 rem***look at objects***
 590 print "{sret}{sret}You can also see the following objects:"
-600 for i=0 to 2
-610 if ob$(i,0)=str$(lc) then print ob$(i,1);:print " ";
+600 for i=0 to o
+610 if ol%(i)=lc then print ob$(i,0);:print " ";
 620 next
 630 print 
 640 return
 700 rem ***examine objects***
-710 for i=0 to 2
-720 if ob$(i,1)=w2$ and (ob$(i,0)=str$(lc) or lc=-1) then goto 750
-730 next 
-740 print "{sret}you can't examine that":return
-750 print ob$(i,2)
-760 return
+710 print "{sret}"
+720 for i=0 to o
+730 if ob$(i,0)=w2$ and (ol%(i)=lc or ol%(i)=-1) then goto 770
+740 next 
+760 print "you can't examine that":return
+770 print ob$(i,1)
+780 return
 800 rem ***get object***
-810 for i=0 to 2
-820 if ob$(i,1)=w2$ and (ob$(i,0)=str$(lc)) then goto 850
-830 next
-850 ob$(i,0)="-1": print "{sret}got it!"
-860 return
+810 print "{sret}"
+820 for i=0 to o
+830 if ob$(i,0)=w2$ and (ol%(i)=lc) then goto 860
+840 next
+850 if i=3 then print "I can't do that.":return
+860 ol%(i)=-1:print "Got the ";:print w2$
+870 return
+900 rem ***inventory***
+910 print "{sret}You have the the following items:"
+920 for i=0 to o
+930 if ol%(i)=-1 then print ob$(i,0);:print " ";
+940 next
+950 print 
+960 return 
+1000 rem ***drop object***
+1010 print "{sret}"
+1020 for i=0 to o
+1030 if ob$(i,0)=w2$ and (ol%(i)=-1) then goto 1050
+1040 next
+1050 if i=3 then print "I can't do that.":return
+1060 ol%(i)=lc:print "Dropped the ";:print w2$
+1070 return
+
 
 
