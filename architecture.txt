@@ -97,6 +97,10 @@ Object 2 is a key at it is at home.
 There is also another location which is -1, this is your bag, an object
 that you are carrying. This is how the inventory is powered. 
 
+When you get an object the location is set to -1.
+
+When you drop an object the location is set to lc. 
+
 ************************************************************************
 * Global variables:
 ************************************************************************
