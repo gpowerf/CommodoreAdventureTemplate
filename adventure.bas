@@ -25,7 +25,7 @@
 190	ob$(0,0)=" 0":ob$(0,1)="candle":ob$(0,2)="an old red candle."
 200	ob$(1,0)=" 0":ob$(1,1)="bottle":ob$(1,2)="an empty milk bottle."
 210	ob$(2,0)=" 2":ob$(2,1)="key":ob$(2,2)="a shinny golden key."
-220 gosub 500:print 
+220 gosub 500
 230 rem ***main loop***
 240 input "{sret}>";a$
 250 le=len(a$)
@@ -38,7 +38,8 @@
 320 if w1$="n" or w1$="s" or w1$="e" or w1$="w" or w1$="go" then gosub 400:lf=1
 330 if w1$="look" then gosub 500
 340 if w1$="examine" then gosub 700
-350 goto 230
+350 if w1$="get" then gosub 800
+360 goto 230
 400 rem ***move around***
 410 if (w1$="n" or w2$="north") then nl=l%(lc,0)
 420 if (w1$="s" or w2$="south") then nl=l%(lc,1)
@@ -61,15 +62,20 @@
 600 for i=0 to 2
 610 if ob$(i,0)=str$(lc) then print ob$(i,1);:print " ";
 620 next
-630 return
+630 print 
+640 return
 700 rem ***examine objects***
 710 for i=0 to 2
-720 if ob$(i,1)=w2$ and (ob$(i,0)=str$(lc) or lc=-1) then goto 740
+720 if ob$(i,1)=w2$ and (ob$(i,0)=str$(lc) or lc=-1) then goto 750
 730 next 
-730 print "{sret}you can't examine that":return
-740 print ob$(i,2)
-750 return
+740 print "{sret}you can't examine that":return
+750 print ob$(i,2)
+760 return
 800 rem ***get object***
-
+810 for i=0 to 2
+820 if ob$(i,1)=w2$ and (ob$(i,0)=str$(lc)) then goto 850
+830 next
+850 ob$(i,0)="-1": print "{sret}got it!"
+860 return
 
 
