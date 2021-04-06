@@ -20,7 +20,7 @@
 150 ob(0)=0 
 160 ob(1)=0 
 170 ob(2)=2 
-175 rem ***objects & description***
+175 rem ***objects, description, locations***
 180 dim ob$(2,1)
 190	ob$(0,0)="candle":ob$(0,1)="An old red candle."
 200	ob$(1,0)="bottle":ob$(1,1)="An empty milk bottle."
