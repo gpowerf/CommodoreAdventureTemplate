@@ -48,9 +48,8 @@
 420 if (w1$="s" or w2$="south") then nl=l%(lc,1)
 430 if (w1$="w" or w2$="west") then nl=l%(lc,2)
 440 if (w1$="e" or w2$="east") then nl=l%(lc,3)
-450 if nl=-1 then print "you can't go that way"
-460 if nl<>-1 then lc=nl
-470 gosub 500:print 
+450 if nl=-1 then print "{sret}you can't go that way"
+460 if nl<>-1 then lc=nl: gosub 500:print 
 480 return
 500 rem ***look at surroundings***
 510 print "{sret}You can see ";
