@@ -8,8 +8,8 @@
 80 rem now this is the map matrix (see architecture.txt)
 85 dim l%(2,3)
 90 l%(0,0)=-1:l%(0,1)=2:l%(0,2)=-1:l%(0,3)=1
-92 l%(1,0)=-1:l%(1,1)=-1:l%(1,2)=-0:l%(1,3)=-1
-94 l%(2,0)=-0:l%(2,1)=-1:l%(2,2)=-1:l%(2,3)=-1
+92 l%(1,0)=-1:l%(1,1)=-1:l%(1,2)=0:l%(1,3)=-1
+94 l%(2,0)=0:l%(2,1)=-1:l%(2,2)=-1:l%(2,3)=-1
 95 rem ***description of locations***
 100 dim d$(2)
 110 d$(0)="a city park. It is a bright day and you can see people enjoying the park."
