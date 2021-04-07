@@ -42,7 +42,8 @@
 350 if w1$="get" then gosub 800
 360 if w1$="inv" or w1$="inventory" then gosub 900
 370 if w1$="drop" then gosub 1000
-380 goto 230
+380 if w1$="quit" then end
+390 goto 230
 400 rem ***move around***
 410 if (w1$="n" or w2$="north") then nl=l%(lc,0)
 420 if (w1$="s" or w2$="south") then nl=l%(lc,1)
