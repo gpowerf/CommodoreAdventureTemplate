@@ -47,6 +47,7 @@
 385 if cf=0 then print "{sret}i don't understand that."
 390 goto 230
 400 rem ***move around***
+405 nl=-1
 410 if (w1$="n" or w2$="north") then nl=l%(lc,0)
 420 if (w1$="s" or w2$="south") then nl=l%(lc,1)
 430 if (w1$="w" or w2$="west") then nl=l%(lc,2)
