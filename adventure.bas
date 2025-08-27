@@ -36,13 +36,15 @@
 290 w1$=left$(a$,i-1)
 300 w2$=""
 310 if (i-le)<1 then w2$=right$(a$,le-i)
-320 if w1$="n" or w1$="s" or w1$="e" or w1$="w" or w1$="go" then gosub 400:lf=1
-330 if w1$="look" then gosub 500
-340 if w1$="examine" then gosub 700
-350 if w1$="get" then gosub 800
-360 if w1$="inv" or w1$="inventory" then gosub 900
-370 if w1$="drop" then gosub 1000
-380 if w1$="quit" then end
+315 cf=0 : rem command found flag
+320 if w1$="n" or w1$="s" or w1$="e" or w1$="w" or w1$="go" then gosub 400:cf=1
+330 if w1$="look" then gosub 500:cf=1
+340 if w1$="examine" then gosub 700:cf=1
+350 if w1$="get" then gosub 800:cf=1
+360 if w1$="inv" or w1$="inventory" then gosub 900:cf=1
+370 if w1$="drop" then gosub 1000:cf=1
+380 if w1$="quit" then print "{sret}come back soon!":end
+385 if cf=0 then print "{sret}i don't understand that."
 390 goto 230
 400 rem ***move around***
 410 if (w1$="n" or w2$="north") then nl=l%(lc,0)
@@ -98,6 +100,3 @@
 1050 if i=3 then print "I can't do that.":return
 1060 ol%(i)=lc:print "Dropped the ";:print w2$
 1070 return
-
-
-
