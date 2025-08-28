@@ -36,17 +36,18 @@
 290 w1$=left$(a$,i-1)
 300 w2$=""
 310 if (i-le)<1 then w2$=right$(a$,le-i)
-320 if w1$="n" or w1$="s" or w1$="e" or w1$="w" or w1$="go" then gosub 400:lf=1
-330 if w1$="look" then gosub 500
-340 if w1$="examine" then gosub 700
-350 if w1$="get" then gosub 800
-360 if w1$="inv" or w1$="inventory" then gosub 900
-370 if w1$="drop" then gosub 1000
-375 if w1$="save" then gosub 20000
-377 if w1$="load" then gosub 21000
-380 if w1$="quit" then end
+315 cf=0 : rem command found flag
+320 if w1$="n" or w1$="s" or w1$="e" or w1$="w" or w1$="go" then gosub 400:cf=1
+330 if w1$="look" then gosub 500:cf=1
+340 if w1$="examine" then gosub 700:cf=1
+350 if w1$="get" then gosub 800:cf=1
+360 if w1$="inv" or w1$="inventory" then gosub 900:cf=1
+370 if w1$="drop" then gosub 1000:cf=1
+380 if w1$="quit" then print "{sret}come back soon!":end
+385 if cf=0 then print "{sret}i don't understand that."
 390 goto 230
 400 rem ***move around***
+405 nl=-1
 410 if (w1$="n" or w2$="north") then nl=l%(lc,0)
 420 if (w1$="s" or w2$="south") then nl=l%(lc,1)
 430 if (w1$="w" or w2$="west") then nl=l%(lc,2)
@@ -100,30 +101,6 @@
 1050 if i=3 then print "I can't do that.":return
 1060 ol%(i)=lc:print "Dropped the ";:print w2$
 1070 return
-19999 rem
-20000 rem *** save game ***
-20010 input "{sret}save file name"; f$
-20020 if f$="" then print "save cancelled.":return
-20030 open 1,8,2,"0:"+f$+",s,w"
-20040 if st<>0 then print "{sret}error saving game!":close 1:return
-20050 print#1,lc
-20060 for i=0 to o
-20070 print#1,ol%(i)
-20080 next i
-20090 close 1
-20100 print "{sret}game saved."
-20110 return
-20999 rem
-21000 rem *** load game ***
-21010 input "{sret}load file name"; f$
-21020 if f$="" then print "load cancelled.":return
-21030 open 1,8,2,f$+",s,r"
-21040 if st<>0 then print "{sret}error loading game!":close 1:return
-21050 input#1,lc
-21060 for i=0 to o
-21070 input#1,ol%(i)
-21080 next i
-21090 close 1
-21100 print "{sret}game loaded."
-21110 gosub 500
-21120 return
+
+
+
