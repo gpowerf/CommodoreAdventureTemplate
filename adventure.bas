@@ -12,8 +12,8 @@
 94 l%(2,0)=0:l%(2,1)=-1:l%(2,2)=-1:l%(2,3)=-1
 95 rem ***description of locations***
 100 dim d$(2)
-110 d$(0)="a city park. It is a bright day and you can see people enjoying the park."
-120 d$(1)="a corner shop. It seems to be stocked with all sorts of items."
+110 d$(0)="a city park. It is a bright day and you can see people enjoying the park." 
+120 d$(1)="a corner shop. It seems to be stocked with all sorts of items." 
 130 d$(2)="your home."
 135 rem ***location of objects***
 140 dim ob(2)
@@ -23,7 +23,7 @@
 175 rem ***objects, description, locations***
 180 dim ob$(2,1)
 190	ob$(0,0)="candle":ob$(0,1)="An old red candle."
-200	ob$(1,0)="bottle":ob$(1,1)="An empty milk bottle."
+200 ob$(1,0)="bottle":ob$(1,1)="An empty milk bottle."
 210	ob$(2,0)="key":ob$(2,1)="A shinny golden key."
 215 dim ol%(2):ol%(0)=0:ol%(1)=0:ol%(2)=2
 220 gosub 500
@@ -42,6 +42,8 @@
 350 if w1$="get" then gosub 800
 360 if w1$="inv" or w1$="inventory" then gosub 900
 370 if w1$="drop" then gosub 1000
+375 if w1$="save" then gosub 20000
+377 if w1$="load" then gosub 21000
 380 if w1$="quit" then end
 390 goto 230
 400 rem ***move around***
@@ -98,6 +100,30 @@
 1050 if i=3 then print "I can't do that.":return
 1060 ol%(i)=lc:print "Dropped the ";:print w2$
 1070 return
-
-
-
+19999 rem
+20000 rem *** save game ***
+20010 input "{sret}save file name"; f$
+20020 if f$="" then print "save cancelled.":return
+20030 open 1,8,2,"0:"+f$+",s,w"
+20040 if st<>0 then print "{sret}error saving game!":close 1:return
+20050 print#1,lc
+20060 for i=0 to o
+20070 print#1,ol%(i)
+20080 next i
+20090 close 1
+20100 print "{sret}game saved."
+20110 return
+20999 rem
+21000 rem *** load game ***
+21010 input "{sret}load file name"; f$
+21020 if f$="" then print "load cancelled.":return
+21030 open 1,8,2,f$+",s,r"
+21040 if st<>0 then print "{sret}error loading game!":close 1:return
+21050 input#1,lc
+21060 for i=0 to o
+21070 input#1,ol%(i)
+21080 next i
+21090 close 1
+21100 print "{sret}game loaded."
+21110 gosub 500
+21120 return
