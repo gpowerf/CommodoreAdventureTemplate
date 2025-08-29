@@ -16,10 +16,10 @@
 120 d$(1)="a corner shop. It seems to be stocked with all sorts of items." 
 130 d$(2)="your home."
 135 rem ***location of objects***
-140 dim ob(2)
-150 ob(0)=0 
-160 ob(1)=0 
-170 ob(2)=2 
+180 dim od$(2,1)
+190	od$(0,0)="candle":od$(0,1)="An old red candle."
+200 od$(1,0)="bottle":od$(1,1)="An empty milk bottle."
+210	od$(2,0)="key":od$(2,1)="A shiny golden key."
 175 rem ***objects, description, locations***
 180 dim ob$(2,1)
 190	ob$(0,0)="candle":ob$(0,1)="An old red candle."
@@ -35,10 +35,10 @@
 280 next
 290 w1$=left$(a$,i-1)
 300 w2$=""
-310 if (i-le)<1 then w2$=right$(a$,le-i)
-315 cf=0 : rem command found flag
-320 if w1$="n" or w1$="s" or w1$="e" or w1$="w" or w1$="go" then gosub 400:cf=1
-330 if w1$="look" then gosub 500:cf=1
+410 if (w1$="n" or w2$="north") then nl=l%(lc,0)
+420 if (w1$="s" or w2$="south") then nl=l%(lc,1)
+430 if (w1$="w" or w2$="west") then nl=l%(lc,2)
+440 if (w1$="e" or w2$="east") then nl=l%(lc,3)
 340 if w1$="examine" then gosub 700:cf=1
 350 if w1$="get" then gosub 800:cf=1
 360 if w1$="inv" or w1$="inventory" then gosub 900:cf=1
@@ -50,50 +50,50 @@
 390 goto 230
 400 rem ***move around***
 405 nl=-1
-410 if (w1$="n" or w2$="north") then nl=l%(lc,0)
-420 if (w1$="s" or w2$="south") then nl=l%(lc,1)
-430 if (w1$="w" or w2$="west") then nl=l%(lc,2)
-440 if (w1$="e" or w2$="east") then nl=l%(lc,3)
+410 if w1$="n" or (w1$="go" and w2$="north") then nl=l%(lc,0)
+420 if w1$="s" or (w1$="go" and w2$="south") then nl=l%(lc,1)
+430 if w1$="w" or (w1$="go" and w2$="west") then nl=l%(lc,2)
+610 if ol%(i)=lc then print od$(i,0);:print " ";
 450 if nl=-1 then print "{sret}you can't go that way"
 460 if nl<>-1 then lc=nl: gosub 500:print 
 480 return
 500 rem ***look at surroundings***
-510 print "{sret}You can see ";
+610 if ol%(i)=lc then print od$(i,0);:print " ";
 520 print d$(lc)
-530 print "{sret}Exits to the: ";
+730 if od$(i,0)=w2$ and (ol%(i)=lc or ol%(i)=-1) then goto 770
 540 if l%(lc,0)<>-1 then print "north ";
 550 if l%(lc,1)<>-1 then print "south ";
-560 if l%(lc,2)<>-1 then print "west ";
+610 if ol%(i)=lc then print od$(i,0);:print " ";
 570 if l%(lc,3)<>-1 then print "east ";
-580 rem***look at objects***
+730 if od$(i,0)=w2$ and (ol%(i)=lc or ol%(i)=-1) then goto 770
 590 print "{sret}{sret}You can also see the following objects:"
 600 for i=0 to o
-610 if ol%(i)=lc then print ob$(i,0);:print " ";
+770 print od$(i,1)
 620 next
-630 print 
+730 if od$(i,0)=w2$ and (ol%(i)=lc or ol%(i)=-1) then goto 770
 640 return
 700 rem ***examine objects***
-710 print "{sret}"
+770 print od$(i,1)
 720 for i=0 to o
 730 if ob$(i,0)=w2$ and (ol%(i)=lc or ol%(i)=-1) then goto 770
-740 next 
+930 if ol%(i)=-1 then print od$(i,0);:print " ";
 760 print "you can't examine that":return
-770 print ob$(i,1)
+830 if od$(i,0)=w2$ and (ol%(i)=lc) then goto 860
 780 return
 800 rem ***get object***
-810 print "{sret}"
+930 if ol%(i)=-1 then print od$(i,0);:print " ";
 820 for i=0 to o
-830 if ob$(i,0)=w2$ and (ol%(i)=lc) then goto 860
+1030 if od$(i,0)=w2$ and (ol%(i)=-1) then goto 1060
 840 next
 850 if i>o then print "I can't do that.":return
-860 ol%(i)=-1:print "Got the ";:print w2$
+930 if ol%(i)=-1 then print od$(i,0);:print " ";
 870 return
-900 rem ***inventory***
+1030 if od$(i,0)=w2$ and (ol%(i)=-1) then goto 1060
 910 print "{sret}You have the the following items:"
 920 for i=0 to o
 930 if ol%(i)=-1 then print ob$(i,0);:print " ";
 940 next
-950 print 
+1030 if od$(i,0)=w2$ and (ol%(i)=-1) then goto 1060
 960 return 
 1000 rem ***drop object***
 1010 print "{sret}"
