@@ -1,4 +1,4 @@
-1 rem ***Adventure Template***
+1 rem ***Adventure Template - Mini Whisper***
 10 print "{clr}":poke 53280,0:poke 53281,0  
 20 rem Start message
 30 print "{lower case}{grn}{rght}{rght}{rght}{rght}{rght}{rght}{rght}*** Adventure Template ***"
@@ -15,16 +15,11 @@
 110 d$(0)="a city park. It is a bright day and you can see people enjoying the park." 
 120 d$(1)="a corner shop. It seems to be stocked with all sorts of items." 
 130 d$(2)="your home."
-135 rem ***location of objects***
+175 rem ***objects, description, locations***
 180 dim od$(2,1)
 190	od$(0,0)="candle":od$(0,1)="An old red candle."
 200 od$(1,0)="bottle":od$(1,1)="An empty milk bottle."
 210	od$(2,0)="key":od$(2,1)="A shiny golden key."
-175 rem ***objects, description, locations***
-180 dim ob$(2,1)
-190	ob$(0,0)="candle":ob$(0,1)="An old red candle."
-200 ob$(1,0)="bottle":ob$(1,1)="An empty milk bottle."
-210	ob$(2,0)="key":ob$(2,1)="A shinny golden key."
 215 dim ol%(2):ol%(0)=0:ol%(1)=0:ol%(2)=2
 220 gosub 500
 230 rem ***main loop***
@@ -35,10 +30,10 @@
 280 next
 290 w1$=left$(a$,i-1)
 300 w2$=""
-410 if (w1$="n" or w2$="north") then nl=l%(lc,0)
-420 if (w1$="s" or w2$="south") then nl=l%(lc,1)
-430 if (w1$="w" or w2$="west") then nl=l%(lc,2)
-440 if (w1$="e" or w2$="east") then nl=l%(lc,3)
+310 if (i-le)<1 then w2$=right$(a$,le-i)
+315 cf=0 : rem command found flag
+320 if w1$="n" or w1$="s" or w1$="e" or w1$="w" or w1$="go" then gosub 400:cf=1
+330 if w1$="look" then gosub 500:cf=1
 340 if w1$="examine" then gosub 700:cf=1
 350 if w1$="get" then gosub 800:cf=1
 360 if w1$="inv" or w1$="inventory" then gosub 900:cf=1
@@ -53,52 +48,52 @@
 410 if w1$="n" or (w1$="go" and w2$="north") then nl=l%(lc,0)
 420 if w1$="s" or (w1$="go" and w2$="south") then nl=l%(lc,1)
 430 if w1$="w" or (w1$="go" and w2$="west") then nl=l%(lc,2)
-610 if ol%(i)=lc then print od$(i,0);:print " ";
+440 if w1$="e" or (w1$="go" and w2$="east") then nl=l%(lc,3)
 450 if nl=-1 then print "{sret}you can't go that way"
 460 if nl<>-1 then lc=nl: gosub 500:print 
 480 return
 500 rem ***look at surroundings***
-610 if ol%(i)=lc then print od$(i,0);:print " ";
+510 print "{sret}You can see ";
 520 print d$(lc)
-730 if od$(i,0)=w2$ and (ol%(i)=lc or ol%(i)=-1) then goto 770
+530 print "{sret}Exits to the: ";
 540 if l%(lc,0)<>-1 then print "north ";
 550 if l%(lc,1)<>-1 then print "south ";
-610 if ol%(i)=lc then print od$(i,0);:print " ";
+560 if l%(lc,2)<>-1 then print "west ";
 570 if l%(lc,3)<>-1 then print "east ";
-730 if od$(i,0)=w2$ and (ol%(i)=lc or ol%(i)=-1) then goto 770
+580 rem***look at objects***
 590 print "{sret}{sret}You can also see the following objects:"
 600 for i=0 to o
-770 print od$(i,1)
+610 if ol%(i)=lc then print od$(i,0);:print " ";
 620 next
-730 if od$(i,0)=w2$ and (ol%(i)=lc or ol%(i)=-1) then goto 770
+630 print 
 640 return
 700 rem ***examine objects***
-770 print od$(i,1)
+710 print "{sret}"
 720 for i=0 to o
-730 if ob$(i,0)=w2$ and (ol%(i)=lc or ol%(i)=-1) then goto 770
-930 if ol%(i)=-1 then print od$(i,0);:print " ";
+730 if od$(i,0)=w2$ and (ol%(i)=lc or ol%(i)=-1) then goto 770
+740 next 
 760 print "you can't examine that":return
-830 if od$(i,0)=w2$ and (ol%(i)=lc) then goto 860
+770 print od$(i,1)
 780 return
 800 rem ***get object***
-930 if ol%(i)=-1 then print od$(i,0);:print " ";
+810 print "{sret}"
 820 for i=0 to o
-1030 if od$(i,0)=w2$ and (ol%(i)=-1) then goto 1060
+830 if od$(i,0)=w2$ and (ol%(i)=lc) then goto 860
 840 next
 850 if i>o then print "I can't do that.":return
-930 if ol%(i)=-1 then print od$(i,0);:print " ";
+860 ol%(i)=-1:print "Got the ";:print w2$
 870 return
-1030 if od$(i,0)=w2$ and (ol%(i)=-1) then goto 1060
+900 rem ***inventory***
 910 print "{sret}You have the the following items:"
 920 for i=0 to o
-930 if ol%(i)=-1 then print ob$(i,0);:print " ";
+930 if ol%(i)=-1 then print od$(i,0);:print " ";
 940 next
-1030 if od$(i,0)=w2$ and (ol%(i)=-1) then goto 1060
+950 print 
 960 return 
 1000 rem ***drop object***
 1010 print "{sret}"
 1020 for i=0 to o
-1030 if ob$(i,0)=w2$ and (ol%(i)=-1) then goto 1050
+1030 if od$(i,0)=w2$ and (ol%(i)=-1) then goto 1060
 1040 next
 1050 if i>o then print "I can't do that.":return
 1060 ol%(i)=lc:print "Dropped the ";:print w2$
@@ -124,3 +119,4 @@
 2180 print "game loaded."
 2190 gosub 500
 2200 return
+
