@@ -43,6 +43,8 @@
 350 if w1$="get" then gosub 800:cf=1
 360 if w1$="inv" or w1$="inventory" then gosub 900:cf=1
 370 if w1$="drop" then gosub 1000:cf=1
+372 if w1$="save" then gosub 2000:cf=1
+374 if w1$="load" then gosub 2100:cf=1
 380 if w1$="quit" then print "{sret}come back soon!":end
 385 if cf=0 then print "{sret}i don't understand that."
 390 goto 230
@@ -83,7 +85,7 @@
 820 for i=0 to o
 830 if ob$(i,0)=w2$ and (ol%(i)=lc) then goto 860
 840 next
-850 if i=3 then print "I can't do that.":return
+850 if i>o then print "I can't do that.":return
 860 ol%(i)=-1:print "Got the ";:print w2$
 870 return
 900 rem ***inventory***
@@ -98,9 +100,27 @@
 1020 for i=0 to o
 1030 if ob$(i,0)=w2$ and (ol%(i)=-1) then goto 1050
 1040 next
-1050 if i=3 then print "I can't do that.":return
+1050 if i>o then print "I can't do that.":return
 1060 ol%(i)=lc:print "Dropped the ";:print w2$
 1070 return
-
-
-
+2000 rem *** save game ***
+2010 print "{sret}saving game..."
+2020 open 1,8,2,"0:savegame,s,w"
+2030 print#1,lc
+2040 for i=0 to o
+2050 print#1,ol%(i)
+2060 next i
+2070 close 1
+2080 print "game saved."
+2090 return
+2100 rem *** load game ***
+2110 print "{sret}loading game..."
+2120 open 1,8,2,"0:savegame,s,r"
+2130 input#1,lc
+2140 for i=0 to o
+2150 input#1,ol%(i)
+2160 next i
+2170 close 1
+2180 print "game loaded."
+2190 gosub 500
+2200 return
